@@ -1,0 +1,59 @@
+[
+  {
+    "name": "warm-up",
+    "label": "Warm-Up",
+    "image": "https://i.pinimg.com/originals/2c/29/84/2c298429b10a06ca87db3e72c944447a.jpg",
+    "description": "Warm-up exercises for arms, shoulders, neck, legs, back and spine",
+    "sets": [
+      {
+        "label": "Shoulders rotation",
+        "image": "https://miro.medium.com/max/1010/1*snBMhYihZ0fXXq8Oyt87AQ.jpeg",
+        "reps": 40,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Arms raising",
+        "image": "https://kettlebellsworkouts.com/wp-content/uploads/2019/02/22-One_Arm_Forwards_and_One_Arm_Backwards.png",
+        "reps": 20,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Arms rotation",
+        "image": "https://i1.wp.com/moorallertongolfclub.co.uk/wp-content/uploads/2018/04/Arm-Circles.png",
+        "reps": 20,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Palms to the floor",
+        "image": "https://spinalvitality.com/wp-content/uploads/2018/07/flexible-vs-stiff.jpg",
+        "reps": 15,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Neck rotations",
+        "image": "https://www.prestigehealthwellness.com/wp-content/uploads/2017/10/neck-circles.jpg",
+        "reps": 40,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Mid Back Turns",
+        "image": "https://i.ytimg.com/vi/CRYD619vlsw/hqdefault.jpg",
+        "reps": 20,
+        "time": "2",
+        "rest": "0.5"
+      },
+      {
+        "label": "Stretching",
+        "image": "https://steelsports.ru/wp-content/uploads/2015/02/441.jpg",
+        "reps": 10,
+        "time": "2",
+        "rest": "0.5"
+      }
+    ]
+  }
+]

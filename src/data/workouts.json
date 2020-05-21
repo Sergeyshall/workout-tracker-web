@@ -1,0 +1,10 @@
+[
+  {
+    "name": "monday",
+    "label": "Monday",
+    "day": "Monday",
+    "exercises": [
+      "warm-up"
+    ]
+  }
+]
