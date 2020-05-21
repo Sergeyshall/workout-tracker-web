@@ -1,0 +1,23 @@
+[
+  {
+    "type": "link",
+    "label": "Profile",
+    "icon": "account_circle",
+    "link": "/profile"
+  },
+  {
+    "type": "link",
+    "label": "Workouts",
+    "icon": "fitness_center",
+    "link": "/workouts"
+  },
+  {
+    "type": "divider"
+  },
+  {
+    "type": "link",
+    "label": "About",
+    "icon": "info",
+    "link": "/about"
+  }
+]
