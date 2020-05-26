@@ -1,8 +1,17 @@
 [
   {
+    "name": "sunday",
+    "label": "Sunday",
+    "day": 0,
+    "exercises": [
+      "warm-up",
+      "warm-up"
+    ]
+  },
+  {
     "name": "monday",
     "label": "Monday",
-    "day": "Monday",
+    "day": 1,
     "exercises": [
       "warm-up"
     ]
@@ -10,7 +19,39 @@
   {
     "name": "tuesday",
     "label": "Tuesday",
-    "day": "Tuesday",
+    "day": 2,
+    "exercises": [
+      "warm-up"
+    ]
+  },
+  {
+    "name": "wednesday",
+    "label": "Wednesday",
+    "day": 3,
+    "exercises": [
+      "warm-up"
+    ]
+  },
+  {
+    "name": "thursday",
+    "label": "Thursday",
+    "day": 4,
+    "exercises": [
+      "warm-up"
+    ]
+  },
+  {
+    "name": "friday",
+    "label": "Friday",
+    "day": 5,
+    "exercises": [
+      "warm-up"
+    ]
+  },
+  {
+    "name": "saturday",
+    "label": "Saturday",
+    "day": 6,
     "exercises": [
       "warm-up"
     ]

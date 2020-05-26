@@ -12,6 +12,7 @@
   </component>
   <component name="ProjectId" id="1cRAZtsrkK8zE8thcijNyufVQfB" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -53,7 +54,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590481090252</updated>
-      <workItem from="1590481091813" duration="6895000" />
+      <workItem from="1590481091813" duration="16838000" />
     </task>
     <servers />
   </component>

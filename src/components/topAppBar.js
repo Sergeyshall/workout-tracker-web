@@ -55,6 +55,6 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   toggleMenu: () => dispatch(toggleDrawerMenu()),
-})
+});
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(TopAppBar));

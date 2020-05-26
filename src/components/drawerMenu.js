@@ -71,10 +71,10 @@ const mapStateToProps = (state) => {
   return {
     isOpen: drawerMenu.isOpen,
   }
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   toggleMenu: () => dispatch(toggleDrawerMenu()),
-})
+});
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(DrawerMenu));

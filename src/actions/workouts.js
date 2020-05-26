@@ -1,16 +1,17 @@
 import { getWorkoutsWithExercises } from "../core";
+import { GET_WORKOUTS_STARTED, GET_WORKOUTS_SUCCESS, GET_WORKOUTS_ERROR } from "./types";
 
 const getWorkOutsActionSuccess = data => ({
-  type: 'GET_WORKOUTS_SUCCESS',
+  type: GET_WORKOUTS_SUCCESS,
   payload: { workouts: data },
 });
 
 const getWorkOutsActionStarted = () => ({
-  type: 'GET_WORKOUTS_STARTED',
+  type: GET_WORKOUTS_STARTED,
 });
 
 const getWorkOutsActionError = error => ({
-  type: 'GET_WORKOUTS_ERROR',
+  type: GET_WORKOUTS_ERROR,
   payload: {
     error,
   }
