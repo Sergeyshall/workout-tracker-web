@@ -1,6 +1,6 @@
 const defaultState = {
   isOpen: false,
-}
+};
 
 const drawerMenu = (state = defaultState, action) => {
   const newState = { ...state };
