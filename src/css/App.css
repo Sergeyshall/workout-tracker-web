@@ -1,3 +1,10 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -6,6 +13,10 @@ a {
 .App {
   text-align: center;
   background-color: #282c34;
+  height: 100%;
+  color: white;
+  padding-top: 4.5rem;
+  box-sizing: border-box;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -15,13 +26,11 @@ a {
 }
 
 .App-header {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 @keyframes App-logo-spin {
@@ -32,3 +41,9 @@ a {
     transform: rotate(360deg);
   }
 }
+
+.form-field {
+  display: block;
+  padding: 0.5rem;
+}
+

@@ -19,5 +19,11 @@
     "label": "About",
     "icon": "info",
     "link": "/about"
+  },
+  {
+    "type": "link",
+    "label": "Test",
+    "icon": "info",
+    "link": "/test"
   }
 ]

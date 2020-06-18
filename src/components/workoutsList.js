@@ -42,7 +42,7 @@ class WorkoutsList extends React.Component {
     super(props);
 
     this.state = {
-      opened: {},
+      opened: null,
       currentDay: (new Date()).getDay(),
     }
   }
@@ -55,10 +55,7 @@ class WorkoutsList extends React.Component {
   }
 
   handleExpandClick(workoutId) {
-    const { opened } = this.state;
-
-    opened[workoutId] = !opened[workoutId];
-    this.setState({ opened });
+    this.setState({ opened: workoutId });
   }
 
   render() {
@@ -86,13 +83,13 @@ class WorkoutsList extends React.Component {
             <Icon
               className={classes.icon}
             >
-              {opened[workout.name] ? "expand_less" : "expand_more"}
+              {opened === workout.name ? "expand_less" : "expand_more"}
             </Icon>
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
       <Collapse
-        in={opened[workout.name]}
+        in={opened === workout.name}
         timeout="auto"
         unmountOnExit
         className={classes.exercises}
