@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const getFormField = (form, name) => {
   const formFieldKey = Object.keys(form).find(key => form[key].name === name);
@@ -9,10 +9,6 @@ const initState = { name: 'Sergii', lastName: 'Shalapuda' };
 
 const Test = (props) => {
   const [user, setUser] = useState(initState);
-
-  const updateUser = () => {
-    setUser({name: "Test", lastName: "test2"});
-  };
 
   useEffect(() => {
     // Trigger only once since second parameter is empty array []

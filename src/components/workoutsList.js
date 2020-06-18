@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   withStyles,
   Icon,
@@ -12,6 +12,7 @@ import {
   ListItemSecondaryAction,
 } from "@material-ui/core";
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import theme from "../theme";
 import { getWorkOutsAction } from "../actions/workouts";
@@ -37,82 +38,83 @@ const styles = () => {
   }
 };
 
-class WorkoutsList extends React.Component {
-  constructor(props) {
-    super(props);
+const initState = {
+  opened: null,
+  currentDay: (new Date()).getDay(),
+};
 
-    this.state = {
-      opened: null,
-      currentDay: (new Date()).getDay(),
-    }
-  }
+const WorkoutsList = (props) => {
+  const [state, setState] = useState(initState);
+  const { opened, currentDay } = state;
+  const { getWorkOuts, classes, workouts, isLoading } = props;
 
-  componentDidMount() {
-    const { getWorkOuts } = this.props;
-
+  useEffect(() => {
     // Get workouts data
     getWorkOuts();
-  }
+  }, [getWorkOuts]);
 
-  handleExpandClick(workoutId) {
-    this.setState({ opened: workoutId });
-  }
+  const handleExpandClick = (workoutId) => {
+    let { opened } = state;
+    opened = opened === workoutId ? null : workoutId;
 
-  render() {
-    const { classes, workouts, isLoading } = this.props;
-    const { opened, currentDay } = this.state;
+    setState({ ...state, opened });
+  };
 
-    const WorkoutListItem = ({ workout }) => <ThemeProvider theme={theme}>
-      <ListItem
-        button
-        divider
-      >
-        <ListItemIcon>
-          <Icon className={classes.icon}>today</Icon>
-        </ListItemIcon>
-        <ListItemText
-          className={`${workout.day === currentDay && classes.currentDayHighlight}`}
-          primary={workout.label}
-        />
-        <ListItemSecondaryAction>
-          <IconButton
-            edge="end"
-            aria-label="expand"
-            onClick={() => this.handleExpandClick(workout.name)}
+  const WorkoutListItem = ({ workout }) => <ThemeProvider theme={theme}>
+    <ListItem
+      button
+      divider
+      component={Link}
+      to={`/workouts/${workout.name}`}
+    >
+      <ListItemIcon>
+        <Icon className={classes.icon}>today</Icon>
+      </ListItemIcon>
+      <ListItemText
+        className={`${workout.day === currentDay && classes.currentDayHighlight}`}
+        primary={workout.label}
+      />
+      <ListItemSecondaryAction>
+        <IconButton
+          edge="end"
+          aria-label="expand"
+          onClick={() => handleExpandClick(workout.name)}
+          data-name={workout.name}
+        >
+          <Icon
+            className={classes.icon}
           >
-            <Icon
-              className={classes.icon}
-            >
-              {opened === workout.name ? "expand_less" : "expand_more"}
-            </Icon>
-          </IconButton>
-        </ListItemSecondaryAction>
-      </ListItem>
-      <Collapse
-        in={opened === workout.name}
-        timeout="auto"
-        unmountOnExit
-        className={classes.exercises}
-      >
-        <List component="div" disablePadding>
-          {
-            workout.exercises.map((exercise, key) => (
-              <ListItem key={key} button className={classes.nested}>
-                <ListItemIcon>
-                  <Icon className={classes.icon}>alarm</Icon>
-                </ListItemIcon>
-                <ListItemText primary={exercise.label} />
-              </ListItem>)
-            )
-          }
-        </List>
-      </Collapse>
-    </ThemeProvider>;
+            {opened === workout.name ? "expand_less" : "expand_more"}
+          </Icon>
+        </IconButton>
+      </ListItemSecondaryAction>
+    </ListItem>
+    <Collapse
+      in={opened === workout.name}
+      timeout="auto"
+      unmountOnExit
+      className={classes.exercises}
+    >
+      <List component="div" disablePadding>
+        {
+          workout.exercises.map((exercise, key) => (
+            <ListItem key={key} button className={classes.nested}>
+              <ListItemIcon>
+                <Icon className={classes.icon}>alarm</Icon>
+              </ListItemIcon>
+              <ListItemText primary={exercise.label} />
+            </ListItem>)
+          )
+        }
+      </List>
+    </Collapse>
+  </ThemeProvider>;
 
-    return <List
+  return <List
       component="nav"
       className={classes.root}
     >
+      {console.log("render")}
       {isLoading && 'Loading...'}
       {
         workouts.map((workout) => <WorkoutListItem
@@ -121,8 +123,7 @@ class WorkoutsList extends React.Component {
         />)
       }
     </List>
-  }
-}
+};
 
 const mapStateToProps = state => ({
   workouts: state.workouts.workouts,

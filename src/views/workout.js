@@ -1,7 +1,6 @@
 import React from "react";
 
 import Title from "../components/title";
-import WorkoutsList from "../components/workoutsList";
 
 class Workout extends React.Component {
   render() {
