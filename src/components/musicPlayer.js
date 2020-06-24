@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 
 const musicPlayerInitState = {
   isOpened: false,
+  songData: {},
 };
 
 let player;
+const playlistId = "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
 
 const MusicPlayer = (props) => {
   const [musicPlayerState, setState] = useState(musicPlayerInitState);
@@ -20,12 +22,7 @@ const MusicPlayer = (props) => {
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     const loadPlaylist = (event) => {
-      event.target.loadPlaylist({ list: "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj", index: 0, startSeconds:0 });
-
-      // Hide player after 5 seconds
-      setTimeout(() => {
-        setState({ isOpened: false });
-      }, 5000);
+      event.target.cuePlaylist({ list: playlistId, index: 0, startSeconds:0 });
     };
 
     // 4. The API will call this function when the video player is ready.
@@ -39,8 +36,16 @@ const MusicPlayer = (props) => {
     let done = false;
 
     const onPlayerStateChange = (event) => {
+      const { BUFFERING, CUED, ENDED, PAUSED, PLAYING, UNSTARTED } = window.YT.PlayerState;
+
+      if (event.data === PLAYING) {
+        setState({ ...musicPlayerState, songData: player.getVideoData() });
+      }
+
       if (event.data == window.YT.PlayerState.PLAYING && !done) {
         //setTimeout(stopVideo, 6000);
+
+        console.log(event);
         done = true;
       }
     };
@@ -50,7 +55,6 @@ const MusicPlayer = (props) => {
     };
 
     window.onYouTubeIframeAPIReady = () => {
-      console.log("onYouTubeIframeAPIReady");
       player = new window.YT.Player('music_player', {
         height: '300',
         width: '100%',
@@ -63,14 +67,14 @@ const MusicPlayer = (props) => {
     }
   }, []);
 
-  const { isOpened } = musicPlayerState;
+  const { isOpened, songData: { title, author } } = musicPlayerState;
 
   const musicPlayerStyle = {
     height: isOpened ? 300 : 0,
   };
 
   const switchPlayer = () => {
-    setState({ isOpened: !isOpened });
+    setState({ ...musicPlayerState, isOpened: !isOpened });
   };
 
   const startPlayer = () => {
@@ -85,15 +89,21 @@ const MusicPlayer = (props) => {
     player.pauseVideo()
   };
 
+  const nextSong = () => {
+    player.nextVideo();
+  };
+
   return <div>
     <div className="music-player" style={musicPlayerStyle}>
       <div id="music_player">
         Music Player
       </div>
     </div>
+    <p>{author?.replace(" - Topic", " : ")}{title}</p>
     <button onClick={startPlayer}>Play</button>
     <button onClick={pausePlayer}>Pause</button>
     <button onClick={stopPlayer}>Stop</button>
+    <button onClick={nextSong}>Next Song</button>
     <button onClick={switchPlayer}>{isOpened ? "Close" : "Open"} Music Player</button>
   </div>
 };

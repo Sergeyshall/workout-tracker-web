@@ -26,7 +26,7 @@ const Exercise = (props) => {
       key={key}
     >
       <p>{label}</p>
-      <img src={image} alt={label} />
+      <img src={image} alt={label} width="100%" />
       <p>Reps: {reps}</p>
       <p>Time: {time}</p>
       <p>Rest: {rest}</p>
