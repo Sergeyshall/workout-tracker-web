@@ -1,3 +1,5 @@
+// window.Chat
+
 import React, { useState, useEffect } from "react";
 
 const getFormField = (form, name) => {

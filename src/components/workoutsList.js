@@ -46,12 +46,15 @@ const initState = {
 const WorkoutsList = (props) => {
   const [state, setState] = useState(initState);
   const { opened, currentDay } = state;
-  const { getWorkOuts, classes, workouts, isLoading } = props;
+  const { getWorkOuts, classes, workouts: { workouts, isLoading, lastSuccessTimestamp } } = props;
+  const shouldLoadData = !lastSuccessTimestamp || workouts.length === 0;
 
   useEffect(() => {
-    // Get workouts data
-    getWorkOuts();
-  }, [getWorkOuts]);
+    if (shouldLoadData) {
+      // Get workouts data
+      getWorkOuts();
+    }
+  }, [getWorkOuts, shouldLoadData]);
 
   const handleExpandClick = (workoutId) => {
     let { opened } = state;
@@ -98,7 +101,13 @@ const WorkoutsList = (props) => {
       <List component="div" disablePadding>
         {
           workout.exercises.map((exercise, key) => (
-            <ListItem key={key} button className={classes.nested}>
+            <ListItem
+              key={key}
+              button
+              className={classes.nested}
+              component={Link}
+              to={`/workouts/${workout.name}`}
+            >
               <ListItemIcon>
                 <Icon className={classes.icon}>alarm</Icon>
               </ListItemIcon>
@@ -126,7 +135,7 @@ const WorkoutsList = (props) => {
 };
 
 const mapStateToProps = state => ({
-  workouts: state.workouts.workouts,
+  workouts: state.workouts,
   isLoading: state.workouts.isLoading,
 });
 

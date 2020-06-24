@@ -15,6 +15,8 @@ import Workout from "./views/workout";
 import About from './views/about';
 import Profile from './views/profile';
 import Test from './views/test';
+import Exercise from "./views/exercise";
+import MusicPlayer from "./components/musicPlayer";
 
 function App() {
   return (
@@ -23,9 +25,11 @@ function App() {
         <Router>
           <TopAppBar />
           <DrawerMenu />
+          <MusicPlayer />
           <Switch>
             <Route path="/profile"><Profile /></Route>
-            <Route path="/workouts/:id"><Workout /></Route>
+            <Route path="/workouts/:id/exercise/:exerciseNumber" component={Exercise} />
+            <Route path="/workouts/:id" component={Workout} />
             <Route path="/workouts"><Workouts /></Route>
             <Route path="/about"><About /></Route>
             <Route path="/test"><Test /></Route>

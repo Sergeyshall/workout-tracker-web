@@ -4,11 +4,10 @@ import { connect } from "react-redux";
 import Title from "../components/title";
 import { getWorkOutsAction } from "../actions/workouts";
 import LoaderWrapper from "../components/loaderWrapper";
-import Exercise from "../components/exercise";
 
-const Workout = (props) => {
-  const { workouts: { workouts, isLoading, lastSuccessTimestamp }, getWorkOuts, match: { params: { id } } } = props;
-  const shouldLoadData = !lastSuccessTimestamp || workouts.length === 0;
+const Exercise = (props) => {
+  const { workouts: { workouts, isLoading, lastSuccessTimestamp }, getWorkOuts, match: { params: { id, exerciseNumber } } } = props;
+  const shouldLoadData = !lastSuccessTimestamp;
 
   useEffect(() => {
     if (shouldLoadData) {
@@ -19,23 +18,31 @@ const Workout = (props) => {
   }, [shouldLoadData, getWorkOuts]);
 
   const currentWorkout = workouts.find(workout => workout.name === id);
-  console.log(currentWorkout, isLoading);
 
-  const exercisesList = currentWorkout?.exercises?.map((exercise, key) => {
-    return <Exercise
+  const exerciseListIndex = parseInt(exerciseNumber, 10) - 1;
+  const currentExercise = currentWorkout?.exercises[exerciseListIndex];
+  const sets = currentExercise?.sets?.map(({ label, image, reps, time, rest }, key) => {
+    return <div
       key={key}
-      exercise={exercise}
-      exerciseNumber={key + 1}
-      workoutName={currentWorkout.name}
-    />
+    >
+      <p>{label}</p>
+      <img src={image} alt={label} />
+      <p>Reps: {reps}</p>
+      <p>Time: {time}</p>
+      <p>Rest: {rest}</p>
+    </div>
   });
+
+
+  console.log(currentExercise, isLoading);
 
   return <header className="App-header">
     <LoaderWrapper isLoading={isLoading}>
       <Title>
-        {`${currentWorkout?.label} workout!`}
+        Exercise {exerciseNumber}: {currentExercise?.label}
       </Title>
-      {exercisesList}
+      {sets}
+
     </LoaderWrapper>
   </header>
 };
@@ -48,4 +55,4 @@ const mapDispatchToProps = dispatch => ({
   getWorkOuts: () => dispatch(getWorkOutsAction()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Workout);
+export default connect(mapStateToProps, mapDispatchToProps)(Exercise);
