@@ -19,7 +19,6 @@ const Workout = (props) => {
   }, [shouldLoadData, getWorkOuts]);
 
   const currentWorkout = workouts.find(workout => workout.name === id);
-  console.log(currentWorkout, isLoading);
 
   const exercisesList = currentWorkout?.exercises?.map((exercise, key) => {
     return <Exercise

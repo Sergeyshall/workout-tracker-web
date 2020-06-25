@@ -1,110 +1,136 @@
-import React, { useEffect, useState } from "react";
-
-const musicPlayerInitState = {
-  isOpened: false,
-  songData: {},
-};
+import React, { useEffect, useState, useMemo } from "react";
+import { Icon, IconButton } from "@material-ui/core";
 
 let player;
-const playlistId = "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
+const playlistId = "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj";
 
-const MusicPlayer = (props) => {
-  const [musicPlayerState, setState] = useState(musicPlayerInitState);
+const playerStates = {
+  UNSTARTED: -1,
+  ENDED: 0,
+  PLAYING: 1,
+  PAUSED: 2,
+  BUFFERING: 3,
+  CUED: 5
+};
+
+const MusicPlayer = () => {
+  const [isOpened, setIsOpenedState] = useState(false);
+  const [songData, setSongDataState] = useState({});
+  const [playerState, setPlayerState] = useState(null);
+  const { author, title } = songData;
+
+  // Load playlist into the queue
+  const loadPlaylist = (id) => {
+    player.cuePlaylist({ list: id, index: 0, startSeconds: 0 });
+  };
 
   useEffect(() => {
-
-
-    // 2. This code loads the IFrame Player API code asynchronously.
+    // This code loads the IFrame Player API code asynchronously.
     const tag = document.createElement('script');
-
     tag.src = "https://www.youtube.com/iframe_api";
+
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    const loadPlaylist = (event) => {
-      event.target.cuePlaylist({ list: playlistId, index: 0, startSeconds:0 });
-    };
-
-    // 4. The API will call this function when the video player is ready.
-    const onPlayerReady = (event) => {
-      event.target.playVideo();
-    };
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    let done = false;
-
+    // Tracking player state change
     const onPlayerStateChange = (event) => {
-      const { BUFFERING, CUED, ENDED, PAUSED, PLAYING, UNSTARTED } = window.YT.PlayerState;
+      const state = event.data;
+      setPlayerState(state);
 
-      if (event.data === PLAYING) {
-        setState({ ...musicPlayerState, songData: player.getVideoData() });
+      // Update song data
+      if ([playerStates.PLAYING, playerStates.CUED].includes(state)) {
+        setSongDataState(player.getVideoData());
       }
-
-      if (event.data == window.YT.PlayerState.PLAYING && !done) {
-        //setTimeout(stopVideo, 6000);
-
-        console.log(event);
-        done = true;
-      }
-    };
-
-    const stopVideo = () => {
-      player.stopVideo();
     };
 
     window.onYouTubeIframeAPIReady = () => {
       player = new window.YT.Player('music_player', {
         height: '300',
         width: '100%',
-        //videoId: 'ew_ryesFmHQ',
         events: {
-          'onReady': loadPlaylist,
-          'onStateChange': onPlayerStateChange
+          'onReady': () => loadPlaylist(playlistId),
+          'onStateChange': onPlayerStateChange,
         }
       });
     }
   }, []);
-
-  const { isOpened, songData: { title, author } } = musicPlayerState;
 
   const musicPlayerStyle = {
     height: isOpened ? 300 : 0,
   };
 
   const switchPlayer = () => {
-    setState({ ...musicPlayerState, isOpened: !isOpened });
+    setIsOpenedState(!isOpened);
   };
 
-  const startPlayer = () => {
+  const play = () => {
     player.playVideo();
   };
 
-  const stopPlayer = () => {
-    player.stopVideo();
-  };
-
-  const pausePlayer = () => {
+  const pause = () => {
     player.pauseVideo()
   };
 
-  const nextSong = () => {
+  const next = () => {
     player.nextVideo();
   };
 
-  return <div>
+  const prev = () => {
+    player.previousVideo();
+  };
+
+  const songTitle = useMemo(() => {
+    console.log("clean author");
+    const cleanAuthor = author?.replace(" - Topic", " : ");
+    return (cleanAuthor + title) || null;
+  }, [author, title]);
+
+  return <div className="music-player-wrapper dark-bg">
     <div className="music-player" style={musicPlayerStyle}>
       <div id="music_player">
         Music Player
       </div>
     </div>
-    <p>{author?.replace(" - Topic", " : ")}{title}</p>
-    <button onClick={startPlayer}>Play</button>
-    <button onClick={pausePlayer}>Pause</button>
-    <button onClick={stopPlayer}>Stop</button>
-    <button onClick={nextSong}>Next Song</button>
-    <button onClick={switchPlayer}>{isOpened ? "Close" : "Open"} Music Player</button>
+    <div className="song-title">{songTitle}</div>
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="prev"
+      onClick={prev}
+    >
+      <Icon>skip_previous</Icon>
+    </IconButton>
+    {playerState === playerStates.PLAYING ? <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="pause"
+      onClick={pause}
+    >
+      <Icon>pause</Icon>
+    </IconButton> : <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="play"
+      onClick={play}
+    >
+      <Icon>play_arrow</Icon>
+    </IconButton>}
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="next"
+      onClick={next}
+    >
+      <Icon>skip_next</Icon>
+    </IconButton>
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="switchPlayer"
+      onClick={switchPlayer}
+    >
+      <Icon>{isOpened ? "expand_less" : "expand_more"}</Icon>
+    </IconButton>
   </div>
 };
 

@@ -21,7 +21,7 @@ import MusicPlayer from "./components/musicPlayer";
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="App dark-bg">
         <Router>
           <TopAppBar />
           <DrawerMenu />
