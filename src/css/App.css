@@ -49,10 +49,15 @@ a {
   padding: 0.5rem;
 }
 
+/* Music Player */
 .music-player-wrapper {
   position: fixed;
   width: 100%;
-  top: 60px;
+  top: 64px;
+  z-index: 1000;
+  box-shadow: 0 0 10px #000;
+  overflow: hidden;
+  transition: height 0.3s ease-out;
 }
 
 .music-player {
@@ -61,11 +66,35 @@ a {
 }
 
 .song-title {
-  margin-right: 15px;
+  margin: 0 15px;
   display: inline-block;
-  width: 200px;
+  width: 185px;
   overflow: hidden;
   white-space: nowrap;
   vertical-align: middle;
+  text-align: right;
+  text-overflow: ellipsis;
+  animation: song-title-run infinite 5s linear;
 }
 
+.player-buffering-button {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+  .music-player-wrapper {
+    top: 54px;
+  }
+}
+
+@keyframes song-title-run {
+  from {
+    text-indent: 0;
+  }
+  to {
+    text-indent: -100%;
+  }
+}

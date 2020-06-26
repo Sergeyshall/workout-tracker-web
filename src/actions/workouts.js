@@ -1,5 +1,5 @@
 import { getWorkoutsWithExercises } from "../core";
-import { GET_WORKOUTS_STARTED, GET_WORKOUTS_SUCCESS, GET_WORKOUTS_ERROR } from "./types";
+import { GET_WORKOUTS_STARTED, GET_WORKOUTS_SUCCESS, GET_WORKOUTS_ERROR } from "./constants";
 
 const getWorkOutsActionSuccess = data => ({
   type: GET_WORKOUTS_SUCCESS,

@@ -1,4 +1,4 @@
-import { TOGGLE_DRAWER_MENU } from "../actions/types";
+import { TOGGLE_DRAWER_MENU } from "../actions/constants";
 
 const defaultState = {
   isOpen: false,

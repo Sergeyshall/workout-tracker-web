@@ -1,4 +1,4 @@
-import { GET_WORKOUTS_STARTED, GET_WORKOUTS_SUCCESS, GET_WORKOUTS_ERROR } from "../actions/types";
+import { GET_WORKOUTS_STARTED, GET_WORKOUTS_SUCCESS, GET_WORKOUTS_ERROR } from "../actions/constants";
 
 const defaultState = {
   workouts: [],

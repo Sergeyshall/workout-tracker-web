@@ -5,6 +5,8 @@ import Title from "../components/title";
 import { getWorkOutsAction } from "../actions/workouts";
 import LoaderWrapper from "../components/loaderWrapper";
 import ExerciseSet from "../components/exerciseSet";
+import events from "../utils/events";
+import { START_MUSIC_PLAYER_EVENT, STOP_MUSIC_PLAYER_EVENT } from "../actions/constants";
 
 const initTimeStatus = "0:00";
 const initialState = {
@@ -67,7 +69,10 @@ const Exercise = (props) => {
       }, 100);
     } else {
       // Exercise is over
-      console.log("exercise is over");
+      alert("exercise is over");
+
+      // Stop music TODO: Should it be moved to stop workout?
+      events.emit(STOP_MUSIC_PLAYER_EVENT);
       stopSet();
     }
   }, [setsLength, set]);
@@ -80,6 +85,9 @@ const Exercise = (props) => {
 
   const startSet = () => {
     setState(prevState => ({ ...prevState, timerStarted: true }));
+
+    // Start music TODO: Should it be moved to start workout?
+    events.emit(START_MUSIC_PLAYER_EVENT);
   };
 
   const stopSet = () => {
