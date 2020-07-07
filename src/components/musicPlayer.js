@@ -106,7 +106,9 @@ const MusicPlayer = (props) => {
       player = new window.YT.Player('music_player', {
         height: '300',
         width: '100%',
-        playsinline: 1,
+        playerVars: {
+          playsinline: 1,
+        },
         events: {
           'onReady': () => {
             loadPlaylist(playlistId);
