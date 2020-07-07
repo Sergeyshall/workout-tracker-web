@@ -6,7 +6,8 @@
     "exercises": [
       "warm-up",
       "warm-up"
-    ]
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
   },
   {
     "name": "monday",
@@ -14,15 +15,18 @@
     "day": 1,
     "exercises": [
       "warm-up"
-    ]
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
   },
   {
     "name": "tuesday",
     "label": "Tuesday",
     "day": 2,
     "exercises": [
-      "warm-up"
-    ]
+      "warm-up",
+      "push-ups-single"
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
   },
   {
     "name": "wednesday",
@@ -30,7 +34,8 @@
     "day": 3,
     "exercises": [
       "warm-up"
-    ]
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
   },
   {
     "name": "thursday",
@@ -38,7 +43,8 @@
     "day": 4,
     "exercises": [
       "warm-up"
-    ]
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
   },
   {
     "name": "friday",
@@ -46,7 +52,8 @@
     "day": 5,
     "exercises": [
       "warm-up"
-    ]
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
   },
   {
     "name": "saturday",
@@ -54,6 +61,7 @@
     "day": 6,
     "exercises": [
       "warm-up"
-    ]
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
   }
 ]

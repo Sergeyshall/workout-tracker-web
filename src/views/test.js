@@ -1,13 +1,13 @@
 // window.Chat
 
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
 const getFormField = (form, name) => {
   const formFieldKey = Object.keys(form).find(key => form[key].name === name);
   return form[formFieldKey];
 };
 
-const initState = { name: 'Sergii', lastName: 'Shalapuda' };
+const initState = {name: 'Sergii', lastName: 'Shalapuda'};
 
 const Test = (props) => {
   const [user, setUser] = useState(initState);

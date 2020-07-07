@@ -20,7 +20,7 @@ const workouts = (state = defaultState, action) => {
     case GET_WORKOUTS_SUCCESS:
       newState.isLoading = false;
       newState.workouts = action.payload.workouts;
-      newState.lastSuccessTimestamp = (new Date()).getTime();
+      newState.lastSuccessTimestamp = new Date().getTime();
 
       return newState;
     default:

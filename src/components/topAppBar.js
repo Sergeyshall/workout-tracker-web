@@ -41,6 +41,13 @@ class TopAppBar extends React.Component {
             <IconButton
               edge="end"
               color="inherit"
+              aria-label="music-player-play"
+            >
+              <Icon>play_arrow</Icon>
+            </IconButton>
+            <IconButton
+              edge="end"
+              color="inherit"
               aria-label="music-player-button"
               onClick={toggleMusicPlayer}
             >

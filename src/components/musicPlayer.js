@@ -2,22 +2,26 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Icon, IconButton } from "@material-ui/core";
 import { connect } from "react-redux";
 
-import { START_MUSIC_PLAYER_EVENT, STOP_MUSIC_PLAYER_EVENT } from "../actions/constants";
+import { PAUSE_MUSIC_PLAYER_EVENT, START_MUSIC_PLAYER_EVENT, STOP_MUSIC_PLAYER_EVENT } from "../actions/constants";
 import events from "../utils/events";
+import { toggleMusicPlayer } from "../actions/musicPlayer";
 
-let player;
+let player = null;
+
+// Default playlist
 const playlistId = "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj";
 
-//const UNSTARTED = -1,
-//      ENDED = 0,
-const PLAYING = 1,
+/*
+ * const UNSTARTED = -1,
+ *       ENDED = 0,
+ */
+const BUFFERING = 3,
 //      PAUSED = 2,
-      BUFFERING = 3,
-      CUED = 5;
+      CUED = 5,
+      PLAYING = 1;
 
 const initState = {
-  isOpen: false,
-  isExpanded: false,
+  isExpanded: true,
   song: {},
   state: null,
   readyToPlay: false,
@@ -25,10 +29,12 @@ const initState = {
 
 const MusicPlayer = (props) => {
   const [playerState, setState] = useState(initState);
-  const { isOpen } = props;
+  const { isOpen, toggleMusicPlayer, playlist } = props;
 
 
   const { song: { author, title }, state, isExpanded, readyToPlay } = playerState;
+
+
 
   // Load playlist into the queue
   const loadPlaylist = (id) => {
@@ -45,6 +51,10 @@ const MusicPlayer = (props) => {
 
   const pause = () => {
     player.pauseVideo()
+  };
+
+  const stop = () => {
+    player.stopVideo()
   };
 
   const next = () => {
@@ -86,12 +96,25 @@ const MusicPlayer = (props) => {
       setState(prevState => ({ ...prevState, ...stateUpdate }));
     };
 
+    const hidePlayerWithTimeout = (seconds) => {
+      setTimeout(() => {
+        setState(prevState => ({ ...prevState, isExpanded: false }));
+        toggleMusicPlayer();
+      }, 1000 * seconds);
+    };
+
     window.onYouTubeIframeAPIReady = () => {
       player = new window.YT.Player('music_player', {
         height: '300',
         width: '100%',
         events: {
-          'onReady': () => loadPlaylist(playlistId),
+          'onReady': () => {
+            loadPlaylist(playlistId);
+
+            // Hide player with a timeout. Timeout required to be able player fully load the data
+            // hidden player is not loading the data in iframe properly
+            hidePlayerWithTimeout(1);
+          },
           'onStateChange': onPlayerStateChange,
         }
       });
@@ -103,13 +126,25 @@ const MusicPlayer = (props) => {
     });
 
     events.on(STOP_MUSIC_PLAYER_EVENT, () => {
+      stop();
+    });
+
+    events.on(PAUSE_MUSIC_PLAYER_EVENT, () => {
       pause();
     });
-  }, []);
+  }, [toggleMusicPlayer]);
+
+  // Update playlist
+  useEffect(() => {
+    if (playlist && readyToPlay) {
+      console.log(playlist);
+      loadPlaylist(playlist);
+    }
+  }, [playlist, readyToPlay]);
 
   const songTitle = useMemo(() => {
     const cleanAuthor = author?.replace(" - Topic", " : ");
-    return (cleanAuthor + title) || "Loading...";
+    return cleanAuthor + title || "Loading...";
   }, [author, title]);
 
 
@@ -165,8 +200,8 @@ const MusicPlayer = (props) => {
       >
         <Icon>skip_next</Icon>
       </IconButton>
-    </> :
-    <IconButton
+    </>
+    : <IconButton
       edge="start"
       color="inherit"
       aria-label="loading"
@@ -185,11 +220,18 @@ const MusicPlayer = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { isOpen } = state.musicPlayer;
+  const { isOpen, playlist } = state.musicPlayer;
 
   return {
     isOpen,
+    playlist,
   };
 };
 
-export default connect(mapStateToProps)(MusicPlayer);
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleMusicPlayer: () => dispatch(toggleMusicPlayer()),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPlayer);

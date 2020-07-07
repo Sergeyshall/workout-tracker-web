@@ -18,7 +18,7 @@ import Test from './views/test';
 import Exercise from "./views/exercise";
 import MusicPlayer from "./components/musicPlayer";
 
-function App() {
+const App = () => {
   return (
     <Provider store={store}>
       <div className="App dark-bg">
@@ -39,6 +39,6 @@ function App() {
       </div>
     </Provider>
   );
-}
+};
 
 export default App;

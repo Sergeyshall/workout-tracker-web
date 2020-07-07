@@ -55,5 +55,20 @@
         "rest": "0.5"
       }
     ]
+  },
+  {
+    "name": "push-ups-single",
+    "label": "Push-Ups 1 set",
+    "image": "/img/dummy-img.jpg",
+    "description": "Single Push-Ups set",
+    "sets": [
+      {
+        "label": "Push-Ups",
+        "image": "https://www.physio-pedia.com/images/2/26/Classic-push-up_push-up-variations.jpg",
+        "reps": 30,
+        "time": "1",
+        "rest": "0.5"
+      }
+    ]
   }
 ]

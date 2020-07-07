@@ -40,7 +40,7 @@ const styles = () => {
 
 const initState = {
   opened: null,
-  currentDay: (new Date()).getDay(),
+  currentDay: new Date().getDay(),
 };
 
 const WorkoutsList = (props) => {
@@ -100,8 +100,7 @@ const WorkoutsList = (props) => {
     >
       <List component="div" disablePadding>
         {
-          workout.exercises.map((exercise, key) => (
-            <ListItem
+          workout.exercises.map((exercise, key) => <ListItem
               key={key}
               button
               className={classes.nested}
@@ -112,7 +111,7 @@ const WorkoutsList = (props) => {
                 <Icon className={classes.icon}>alarm</Icon>
               </ListItemIcon>
               <ListItemText primary={exercise.label} />
-            </ListItem>)
+            </ListItem>
           )
         }
       </List>

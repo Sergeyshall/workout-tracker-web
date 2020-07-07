@@ -1,12 +1,11 @@
 import React from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import { Icon } from "@material-ui/core";
+import { Icon, withStyles } from "@material-ui/core";
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { withStyles } from "@material-ui/core";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -38,8 +37,8 @@ class DrawerMenu extends React.Component {
         className={classes.list}
       ><List>
         {menuListData.map((listItem, index) => {
-            const item = listItem.type === "link" ?
-              <Link to={listItem.link} key={index}>
+            const item = listItem.type === "link"
+              ? <Link to={listItem.link} key={index}>
                 <ListItem button>
                   <ListItemIcon><Icon>{listItem.icon}</Icon></ListItemIcon>
                     <ListItemText primary={listItem.label}/>
