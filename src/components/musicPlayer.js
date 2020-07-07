@@ -35,7 +35,6 @@ const MusicPlayer = (props) => {
   const { song: { author, title }, state, isExpanded, readyToPlay } = playerState;
 
 
-
   // Load playlist into the queue
   const loadPlaylist = (id) => {
     player.cuePlaylist({ list: id, index: 0, startSeconds: 0 });
@@ -107,12 +106,15 @@ const MusicPlayer = (props) => {
       player = new window.YT.Player('music_player', {
         height: '300',
         width: '100%',
+        playsinline: 1,
         events: {
           'onReady': () => {
             loadPlaylist(playlistId);
 
-            // Hide player with a timeout. Timeout required to be able player fully load the data
-            // hidden player is not loading the data in iframe properly
+            /*
+             * Hide player with a timeout. Timeout required to be able player fully load the data
+             * hidden player is not loading the data in iframe properly
+             */
             hidePlayerWithTimeout(1);
           },
           'onStateChange': onPlayerStateChange,
