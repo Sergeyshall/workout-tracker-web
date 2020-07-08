@@ -16,6 +16,7 @@
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "serve": "^11.3.2",
     "typescript": "^3.9.6"
   },
   "scripts": {
@@ -23,7 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint '*/**/*.{js,ts,tsx}'"
+    "lint": "./node_modules/.bin/eslint '*/**/*.{js,ts,tsx}'",
+    "start-build": "serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
