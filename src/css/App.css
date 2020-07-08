@@ -19,7 +19,14 @@ a {
   min-height: 100%;
   color: white;
   padding-top: 4.5rem;
+  padding-bottom: 2rem;
   box-sizing: border-box;
+}
+
+.app-footer {
+  color: gray;
+  margin-top: -30px;
+  text-align: center;
 }
 
 @media (prefers-reduced-motion: no-preference) {

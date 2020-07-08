@@ -17,6 +17,7 @@ import Profile from './views/profile';
 import Test from './views/test';
 import Exercise from "./views/exercise";
 import MusicPlayer from "./components/musicPlayer";
+import Footer from "./components/footer";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           </Switch>
         </Router>
       </div>
+      <Footer />
     </Provider>
   );
 };
