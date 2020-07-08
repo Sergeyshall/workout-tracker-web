@@ -20,17 +20,20 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web\public\img" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web\public" />
       <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web" />
       <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web\src\views" />
-      <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web\public" />
       <recent name="C:\Users\Sergii\Documents\webdev\workout-tracker-web\public\img" />
     </key>
   </component>
@@ -62,7 +65,7 @@
       <workItem from="1592570076338" duration="474000" />
       <workItem from="1592825484669" duration="2184000" />
       <workItem from="1592990922003" duration="52731000" />
-      <workItem from="1594120261223" duration="18618000" />
+      <workItem from="1594120261223" duration="20149000" />
     </task>
     <servers />
   </component>
