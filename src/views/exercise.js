@@ -5,55 +5,38 @@ import LoaderWrapper from "../components/loaderWrapper";
 import ExerciseSet from "../components/exerciseSet";
 import Timer from "../components/timer";
 
-import { getTimeString } from "../utils";
 import useWorkouts from "../hooks/useWorkouts";
 import useMusicPlayer from "../hooks/useMusicPlayer";
+import useTimer from "../hooks/useTimer";
 
 const initialState = {
   set: 0,
-  timer: 0,
-  timeLeft: 0,
-  progress: 0,
-  timerStarted: false,
   restStatus: false,
-  prevTimer: 0,
 };
-const intervalDuration = 1000;
 
 const Exercise = (props) => {
   const { match: { params: { id, exerciseNumber } } } = props;
-  const [state, setState] = useState(initialState);
-  const { set, timer, timeLeft, progress, timerStarted, restStatus, prevTimer } = state;
+  const [ state, setState ] = useState(initialState);
+  const { set, restStatus } = state;
   const { isLoading, currentWorkout, currentExercise } = useWorkouts(id, exerciseNumber);
   const { setPlaylist, stopMusicPlayer, startMusicPlayer, pauseMusicPlayer } = useMusicPlayer();
 
-  // Timer
-  useEffect(() => {
-    let elapsedSeconds = prevTimer;
-
-    const timerId = setInterval(() => {
-      if (timerStarted) {
-        elapsedSeconds += 1;
-
-        setState(prevState => ({...prevState, timer: elapsedSeconds}));
-      }
-    }, intervalDuration);
-
-    return () => clearInterval(timerId);
-  }, [timerStarted, prevTimer]);
-
   const currentSet = currentExercise?.sets?.[set] || {};
   const setsLength = currentExercise?.sets?.length;
+  const totalTime = restStatus ? currentSet?.rest : currentSet?.time;
 
-  useEffect(() => {
-    // Set music player playlist for the current workout
-    if (currentWorkout) {
-      setPlaylist(currentWorkout.playlist);
-    }
-  }, [currentWorkout, setPlaylist]);
+  const {
+    timeLeft,
+    progress,
+    setTimer,
+    pauseTimer,
+    stopTimer,
+    startTimer,
+  } = useTimer(totalTime * 60);
 
   const prevSet = () => {
     if (set > 0) {
+      stopTimer();
       setState({ ...initialState, set: set - 1 });
 
       // Start prev set with a pause
@@ -64,23 +47,24 @@ const Exercise = (props) => {
   };
 
   const startSet = useCallback(() => {
-    setState(prevState => ({ ...prevState, timerStarted: true }));
+    startTimer();
 
     // Start music TODO: Should it be moved to start workout?
     startMusicPlayer();
-  }, [startMusicPlayer]);
+  }, [startMusicPlayer, startTimer]);
 
   const stopSet = useCallback(() => {
-    setState(prevState => ({ ...prevState, timerStarted: false, timer: 0, prevTimer: 0 }));
+    stopTimer();
     stopMusicPlayer();
-  }, [stopMusicPlayer]);
+  }, [stopMusicPlayer, stopTimer]);
 
   const pauseSet = () => {
-    setState(prevState => ({ ...prevState, timerStarted: false, prevTimer: timer }));
+    pauseTimer();
     pauseMusicPlayer();
   };
 
   const nextSet = useCallback(() => {
+    stopTimer();
     const nextSetNumber = setsLength && set + 1 < setsLength && set + 1;
 
     if (nextSetNumber) {
@@ -99,32 +83,29 @@ const Exercise = (props) => {
 
       stopSet();
     }
-  }, [setsLength, set, startSet, stopSet]);
+  }, [setsLength, set, startSet, stopSet, stopTimer]);
 
+  // Control rest phase
   useEffect(() => {
-    const setTime = currentSet?.time * 60;
-    const restTime = currentSet?.rest * 60;
-    let timeLeft = setTime - timer || 0;
-    let isRest = false;
-
-    if (timeLeft < 0) {
-      // Add Rest time
-      timeLeft += restTime;
-      isRest = true;
+    if (timeLeft < 0 && !restStatus) {
+      setTimer(currentSet?.rest * 60);
+      setState(prevState => ({ ...prevState, restStatus: true }));
     }
+  }, [timeLeft, restStatus, currentSet, setTimer]);
 
-    // Set time progress in %
-    const progressTotalTime = isRest ? restTime : setTime;
-    const progress = (progressTotalTime - timeLeft) / progressTotalTime;
-
-    const timeString = getTimeString(timeLeft);
-    setState(prevState => ({ ...prevState, timeString, timeLeft, progress, restStatus: isRest }));
-
-    // Rest time is over (set is over)
-    if (timeLeft < 0) {
+  // Control auto navigation to the next set
+  useEffect(() => {
+    if (timeLeft < 0 && restStatus) {
       nextSet();
     }
-  }, [timer, currentSet, nextSet]);
+  }, [timeLeft, restStatus, nextSet]);
+
+  // Set music player playlist for the current workout
+  useEffect(() => {
+    if (currentWorkout) {
+      setPlaylist(currentWorkout.playlist);
+    }
+  }, [currentWorkout, setPlaylist]);
 
   return <header className="App-header">
     <LoaderWrapper isLoading={isLoading}>
@@ -136,7 +117,9 @@ const Exercise = (props) => {
       <button onClick={stopSet}>Stop set</button>
       {restStatus && <p>Rest phase</p>}
       <Timer progress={progress} time={timeLeft} />
-      <ExerciseSet set={currentSet} />
+      <ExerciseSet
+        set={currentSet}
+      />
       <button onClick={prevSet}>Prev Set</button>
       <button onClick={nextSet}>Next Set</button>
     </LoaderWrapper>
