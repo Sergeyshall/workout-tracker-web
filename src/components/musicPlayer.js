@@ -141,7 +141,6 @@ const MusicPlayer = (props) => {
   // Update playlist
   useEffect(() => {
     if (playlist && readyToPlay) {
-      console.log(playlist);
       loadPlaylist(playlist);
     }
   }, [playlist, readyToPlay]);

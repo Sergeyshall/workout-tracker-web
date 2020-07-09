@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React from "react";
 
 import Title from "../components/title";
-import { getWorkOutsAction } from "../actions/workouts";
 import LoaderWrapper from "../components/loaderWrapper";
 import Exercise from "../components/exercise";
 
+import useWorkouts from "../hooks/useWorkouts";
+
 const Workout = (props) => {
-  const { workouts: { workouts, isLoading, lastSuccessTimestamp }, getWorkOuts, match: { params: { id } } } = props;
-  const shouldLoadData = !lastSuccessTimestamp || workouts.length === 0;
-
-  useEffect(() => {
-    if (shouldLoadData) {
-      console.log("Load workout");
-      // Initial data loading
-      getWorkOuts();
-    }
-  }, [shouldLoadData, getWorkOuts]);
-
-  const currentWorkout = workouts.find(workout => workout.name === id);
+  const { match: { params: { id } } } = props;
+  const { currentWorkout, isLoading } = useWorkouts(id);
 
   const exercisesList = currentWorkout?.exercises?.map((exercise, key) => {
     return <Exercise
@@ -39,12 +29,4 @@ const Workout = (props) => {
   </header>
 };
 
-const mapStateToProps = (state) => ({
-  workouts: state.workouts,
-});
-
-const mapDispatchToProps = dispatch => ({
-  getWorkOuts: () => dispatch(getWorkOutsAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Workout);
+export default Workout;

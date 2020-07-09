@@ -24,7 +24,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -65,7 +65,7 @@
       <workItem from="1592570076338" duration="474000" />
       <workItem from="1592825484669" duration="2184000" />
       <workItem from="1592990922003" duration="52731000" />
-      <workItem from="1594120261223" duration="31495000" />
+      <workItem from="1594120261223" duration="39463000" />
     </task>
     <servers />
   </component>
@@ -82,15 +82,15 @@
     </state>
     <state x="-1234" y="-109" key="FileChooserDialogImpl/0.0.1536.824/-1920.-321.1920.1040@-1920.-321.1920.1040" timestamp="1592835191811" />
     <state x="549" y="168" key="FileChooserDialogImpl/0.0.1536.824/-1920.-321.1920.1040@0.0.1536.824" timestamp="1594120289888" />
-    <state x="-1107" y="-110" key="SettingsEditor" timestamp="1594121567390">
+    <state x="-1107" y="-110" key="SettingsEditor" timestamp="1594267568663">
       <screen x="-1920" y="-321" width="1920" height="1040" />
     </state>
-    <state x="-1107" y="-110" key="SettingsEditor/0.0.1536.824/-1920.-321.1920.1040@0.0.1536.824" timestamp="1594121567390" />
-    <state x="602" y="166" width="611" height="536" key="find.popup" timestamp="1594222955025">
+    <state x="-1107" y="-110" key="SettingsEditor/0.0.1536.824/-1920.-321.1920.1040@0.0.1536.824" timestamp="1594267568663" />
+    <state x="602" y="166" width="611" height="536" key="find.popup" timestamp="1594273116309">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="-1341" y="-139" width="762" height="677" key="find.popup/0.0.1536.824/-1920.-321.1920.1040@-1920.-321.1920.1040" timestamp="1592825849705" />
-    <state x="602" y="166" width="611" height="536" key="find.popup/0.0.1536.824/-1920.-321.1920.1040@0.0.1536.824" timestamp="1594222955025" />
+    <state x="602" y="166" width="611" height="536" key="find.popup/0.0.1536.824/-1920.-321.1920.1040@0.0.1536.824" timestamp="1594273116309" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1593099946223">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

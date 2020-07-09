@@ -1,16 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { connect } from "react-redux";
 
 import Title from "../components/title";
-import { getWorkOutsAction } from "../actions/workouts";
-import { setMusicPlayerPlaylist } from "../actions/musicPlayer";
 import LoaderWrapper from "../components/loaderWrapper";
 import ExerciseSet from "../components/exerciseSet";
 import Timer from "../components/timer";
 
-import events from "../utils/events";
-import { START_MUSIC_PLAYER_EVENT, STOP_MUSIC_PLAYER_EVENT, PAUSE_MUSIC_PLAYER_EVENT } from "../actions/constants";
 import { getTimeString } from "../utils";
+import useWorkouts from "../hooks/useWorkouts";
+import useMusicPlayer from "../hooks/useMusicPlayer";
 
 const initialState = {
   set: 0,
@@ -24,24 +21,11 @@ const initialState = {
 const intervalDuration = 1000;
 
 const Exercise = (props) => {
+  const { match: { params: { id, exerciseNumber } } } = props;
   const [state, setState] = useState(initialState);
   const { set, timer, timeLeft, progress, timerStarted, restStatus, prevTimer } = state;
-
-  const {
-    workouts: { workouts, isLoading, lastSuccessTimestamp },
-    getWorkOuts,
-    setMusicPlaylist,
-    match: { params: { id, exerciseNumber } }
-  } = props;
-  const shouldLoadData = !lastSuccessTimestamp;
-
-  // Initial data loading on component mount
-  useEffect(() => {
-    if (shouldLoadData) {
-      // Initial data loading
-      getWorkOuts();
-    }
-  }, [shouldLoadData, getWorkOuts]);
+  const { isLoading, currentWorkout, currentExercise } = useWorkouts(id, exerciseNumber);
+  const { setPlaylist, stopMusicPlayer, startMusicPlayer, pauseMusicPlayer } = useMusicPlayer();
 
   // Timer
   useEffect(() => {
@@ -58,19 +42,43 @@ const Exercise = (props) => {
     return () => clearInterval(timerId);
   }, [timerStarted, prevTimer]);
 
-  const currentWorkout = workouts.find(workout => workout.name === id);
-  const exerciseListIndex = parseInt(exerciseNumber, 10) - 1;
-  const currentExercise = currentWorkout?.exercises[exerciseListIndex];
   const currentSet = currentExercise?.sets?.[set] || {};
   const setsLength = currentExercise?.sets?.length;
 
   useEffect(() => {
     // Set music player playlist for the current workout
     if (currentWorkout) {
-      setMusicPlaylist(currentWorkout.playlist);
+      setPlaylist(currentWorkout.playlist);
     }
+  }, [currentWorkout, setPlaylist]);
 
-  }, [currentWorkout, setMusicPlaylist]);
+  const prevSet = () => {
+    if (set > 0) {
+      setState({ ...initialState, set: set - 1 });
+
+      // Start prev set with a pause
+      setTimeout(() => {
+        startSet();
+      }, 100);
+    }
+  };
+
+  const startSet = useCallback(() => {
+    setState(prevState => ({ ...prevState, timerStarted: true }));
+
+    // Start music TODO: Should it be moved to start workout?
+    startMusicPlayer();
+  }, [startMusicPlayer]);
+
+  const stopSet = useCallback(() => {
+    setState(prevState => ({ ...prevState, timerStarted: false, timer: 0, prevTimer: 0 }));
+    stopMusicPlayer();
+  }, [stopMusicPlayer]);
+
+  const pauseSet = () => {
+    setState(prevState => ({ ...prevState, timerStarted: false, prevTimer: timer }));
+    pauseMusicPlayer();
+  };
 
   const nextSet = useCallback(() => {
     const nextSetNumber = setsLength && set + 1 < setsLength && set + 1;
@@ -89,39 +97,9 @@ const Exercise = (props) => {
       // Exercise is over
       alert("exercise is over");
 
-      // Stop music TODO: Should it be moved to stop workout?
-      events.emit(STOP_MUSIC_PLAYER_EVENT);
       stopSet();
     }
-  }, [setsLength, set]);
-
-  const prevSet = () => {
-    if (set > 0) {
-      setState({ ...initialState, set: set - 1 });
-
-      // Start prev set with a pause
-      setTimeout(() => {
-        startSet();
-      }, 100);
-    }
-  };
-
-  const startSet = () => {
-    setState(prevState => ({ ...prevState, timerStarted: true }));
-
-    // Start music TODO: Should it be moved to start workout?
-    events.emit(START_MUSIC_PLAYER_EVENT);
-  };
-
-  const stopSet = () => {
-    setState(prevState => ({ ...prevState, timerStarted: false, timer: 0, prevTimer: 0 }));
-    events.emit(STOP_MUSIC_PLAYER_EVENT);
-  };
-
-  const pauseSet = () => {
-    setState(prevState => ({ ...prevState, timerStarted: false, prevTimer: timer }));
-    events.emit(PAUSE_MUSIC_PLAYER_EVENT);
-  };
+  }, [setsLength, set, startSet, stopSet]);
 
   useEffect(() => {
     const setTime = currentSet?.time * 60;
@@ -165,13 +143,4 @@ const Exercise = (props) => {
   </header>
 };
 
-const mapStateToProps = (state) => ({
-  workouts: state.workouts,
-});
-
-const mapDispatchToProps = dispatch => ({
-  getWorkOuts: () => dispatch(getWorkOutsAction()),
-  setMusicPlaylist: (playlist) => dispatch(setMusicPlayerPlaylist(playlist)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Exercise);
+export default Exercise;
