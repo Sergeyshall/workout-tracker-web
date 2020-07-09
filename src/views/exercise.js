@@ -16,7 +16,7 @@ const initialState = {
 
 const Exercise = (props) => {
   const { match: { params: { id, exerciseNumber } } } = props;
-  const [ state, setState ] = useState(initialState);
+  const [state, setState] = useState(initialState);
   const { set, restStatus } = state;
   const { isLoading, currentWorkout, currentExercise } = useWorkouts(id, exerciseNumber);
   const { setPlaylist, stopMusicPlayer, startMusicPlayer, pauseMusicPlayer } = useMusicPlayer();
@@ -34,7 +34,14 @@ const Exercise = (props) => {
     startTimer,
   } = useTimer(totalTime * 60);
 
-  const prevSet = () => {
+  const startSet = useCallback(() => {
+    startTimer();
+
+    // Start music TODO: Should it be moved to start workout?
+    startMusicPlayer();
+  }, [startMusicPlayer, startTimer]);
+
+  const prevSet = useCallback(() => {
     if (set > 0) {
       stopTimer();
       setState({ ...initialState, set: set - 1 });
@@ -44,24 +51,17 @@ const Exercise = (props) => {
         startSet();
       }, 100);
     }
-  };
-
-  const startSet = useCallback(() => {
-    startTimer();
-
-    // Start music TODO: Should it be moved to start workout?
-    startMusicPlayer();
-  }, [startMusicPlayer, startTimer]);
+  }, [stopTimer, set, startSet]);
 
   const stopSet = useCallback(() => {
     stopTimer();
     stopMusicPlayer();
   }, [stopMusicPlayer, stopTimer]);
 
-  const pauseSet = () => {
+  const pauseSet = useCallback(() => {
     pauseTimer();
     pauseMusicPlayer();
-  };
+  }, [pauseTimer, pauseMusicPlayer]);
 
   const nextSet = useCallback(() => {
     stopTimer();
@@ -112,16 +112,17 @@ const Exercise = (props) => {
       <Title>
         Exercise {exerciseNumber}: {currentExercise?.label}
       </Title>
-      <button onClick={startSet}>Start set</button>
-      <button onClick={pauseSet}>Pause set</button>
-      <button onClick={stopSet}>Stop set</button>
+
       {restStatus && <p>Rest phase</p>}
       <Timer progress={progress} time={timeLeft} />
       <ExerciseSet
         set={currentSet}
+        onStartClick={startSet}
+        onPauseClick={pauseSet}
+        onPrevClick={prevSet}
+        onNextClick={nextSet}
+        onStopClick={stopSet}
       />
-      <button onClick={prevSet}>Prev Set</button>
-      <button onClick={nextSet}>Next Set</button>
     </LoaderWrapper>
   </header>
 };

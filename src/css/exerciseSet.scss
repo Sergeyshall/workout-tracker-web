@@ -1,0 +1,15 @@
+@import "theme";
+
+.exercise-set-wrapper {
+  position: relative;
+
+  .set-control-box {
+    background: $semi-transparent-black;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 20px;
+  }
+}
+

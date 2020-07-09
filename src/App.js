@@ -5,7 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import { Provider } from 'react-redux';
-import './css/App.css';
+import './css/App.scss';
 import DrawerMenu from "./components/drawerMenu";
 import TopAppBar from "./components/topAppBar";
 import store from "./store";

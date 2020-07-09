@@ -38,7 +38,7 @@ const useTimer = (initTime = 0) => {
 
   // Timer
   useEffect(() => {
-    let timerId;
+    let timerId = null;
 
     if (isInProgress) {
       timerId = setInterval(() => {
@@ -61,6 +61,7 @@ const useTimer = (initTime = 0) => {
     stopTimer,
     startTimer,
     setTimer,
+    isInProgress,
   }
 };
 
