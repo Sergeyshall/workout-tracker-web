@@ -1,4 +1,4 @@
-@import "theme";
+@use "theme" as *;
 
 .exercise-set-wrapper {
   position: relative;
@@ -12,4 +12,3 @@
     padding: 20px;
   }
 }
-

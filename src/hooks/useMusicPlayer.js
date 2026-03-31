@@ -1,34 +1,41 @@
 import { useCallback } from 'react';
-import { useDispatch } from "react-redux";
-import { START_MUSIC_PLAYER_EVENT, STOP_MUSIC_PLAYER_EVENT, PAUSE_MUSIC_PLAYER_EVENT } from "../actions/constants";
-import events from "../utils/events";
-import { setMusicPlayerPlaylist } from "../actions/musicPlayer";
+import { useDispatch } from 'react-redux';
+import {
+  setMusicPlayerPlaylist,
+  playMusic,
+  pauseMusic,
+  stopMusic,
+} from '../slices/musicPlayerSlice';
 
 const useMusicPlayer = () => {
   const dispatch = useDispatch();
 
-  const setPlaylist = (playlist) => {
-    dispatch(setMusicPlayerPlaylist(playlist));
-  };
+  const setPlaylist = useCallback(
+    (playlist) => dispatch(setMusicPlayerPlaylist(playlist)),
+    [dispatch]
+  );
 
-  const stopMusicPlayer = useCallback(() => {
-    events.emit(STOP_MUSIC_PLAYER_EVENT);
-  }, []);
+  const startMusicPlayer = useCallback(
+    () => dispatch(playMusic()),
+    [dispatch]
+  );
 
-  const startMusicPlayer = useCallback(() => {
-    events.emit(START_MUSIC_PLAYER_EVENT);
-  }, []);
+  const pauseMusicPlayer = useCallback(
+    () => dispatch(pauseMusic()),
+    [dispatch]
+  );
 
-  const pauseMusicPlayer = useCallback(() => {
-    events.emit(PAUSE_MUSIC_PLAYER_EVENT);
-  }, []);
+  const stopMusicPlayer = useCallback(
+    () => dispatch(stopMusic()),
+    [dispatch]
+  );
 
   return {
     setPlaylist,
     stopMusicPlayer,
     startMusicPlayer,
     pauseMusicPlayer,
-  }
+  };
 };
 
 export default useMusicPlayer;

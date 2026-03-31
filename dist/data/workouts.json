@@ -1,0 +1,67 @@
+[
+  {
+    "name": "sunday",
+    "label": "Sunday",
+    "day": 0,
+    "exercises": [
+      "warm-up",
+      "warm-up"
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
+  },
+  {
+    "name": "monday",
+    "label": "Monday",
+    "day": 1,
+    "exercises": [
+      "warm-up"
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
+  },
+  {
+    "name": "tuesday",
+    "label": "Tuesday",
+    "day": 2,
+    "exercises": [
+      "warm-up",
+      "push-ups-single"
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
+  },
+  {
+    "name": "wednesday",
+    "label": "Wednesday",
+    "day": 3,
+    "exercises": [
+      "warm-up"
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
+  },
+  {
+    "name": "thursday",
+    "label": "Thursday",
+    "day": 4,
+    "exercises": [
+      "warm-up"
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
+  },
+  {
+    "name": "friday",
+    "label": "Friday",
+    "day": 5,
+    "exercises": [
+      "warm-up"
+    ],
+    "playlist": "PLOIpw4rxNuT6xSJyebE1mSI-3pkkt4fEj"
+  },
+  {
+    "name": "saturday",
+    "label": "Saturday",
+    "day": 6,
+    "exercises": [
+      "warm-up"
+    ],
+    "playlist": "RDQMBPj0rb_e8BY"
+  }
+]

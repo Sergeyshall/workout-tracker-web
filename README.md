@@ -1,72 +1,100 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Workout Tracker Web
 
-## Available Scripts
+A modernized workout tracking app built with React 18, Vite, Redux Toolkit, and MUI.
 
-In the project directory, you can run:
+It lets you browse scheduled workouts, run timed exercise sets, track completion progress, keep workout history, and control background music playlists during sessions.
 
-### `yarn start`
+## Tech Stack
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 18
+- Vite 5
+- React Router 6
+- Redux Toolkit + redux-persist
+- MUI 5 (Material UI)
+- Sass (SCSS)
+- Vitest + Testing Library
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Features
 
-### `yarn test`
+- Daily workout dashboard on the home screen
+- Workout and exercise navigation with timer-based sets
+- Workout progress tracking (active session + completion history)
+- Local persistence for progress/history
+- Music player controls integrated with workout flow
+- Error and retry states for data-loading views
+- Local image fallbacks for exercise media
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Structure
 
-### `yarn build`
+```text
+src/
+	components/     UI building blocks
+	hooks/          Reusable logic (timer, workouts, music player)
+	slices/         Redux Toolkit slices
+	views/          Route-level pages
+	utils/          Utility helpers
+public/
+	data/           Workouts and exercises JSON data
+	img/            Local exercise images and fallback assets
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Prerequisites
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- Node.js 18+ (recommended)
+- npm 9+
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting Started
 
-### `yarn eject`
+Install dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Start development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm run dev
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Default local URL:
 
-## Learn More
+```text
+http://localhost:3000
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Scripts
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `npm run dev` - start Vite dev server
+- `npm run build` - create production build
+- `npm run preview` - preview production build locally
+- `npm run test` - run tests once (CI mode)
+- `npm run test:watch` - run tests in watch mode
 
-### Code Splitting
+## Data Sources
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+- Workouts: `public/data/workouts.json`
+- Exercises: `public/data/exercises.json`
 
-### Analyzing the Bundle Size
+Exercise media now uses local image paths in `public/img/exercises` with runtime fallback to `public/img/dummy-img.jpg`.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Verification Checklist
 
-### Making a Progressive Web App
+Before committing, run:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```bash
+npm run test
+npm run build
+```
 
-### Advanced Configuration
+Optional consistency check for duplicate JSX/JS source files:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```bash
+for f in src/**/*.jsx src/*.jsx; do b="${f%.jsx}"; if [ -f "$b.js" ]; then echo "$b"; fi; done | sort -u
+```
 
-### Deployment
+Expected output for the duplicate-file check is empty.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Version
 
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-### Notes
-
-`._eslintrc.js` - for future conversion to typescript
+Current app version: `0.2.0`

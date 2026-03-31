@@ -1,41 +1,32 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchWorkouts } from '../slices/workoutsSlice';
 
-import { getWorkOutsAction } from "../actions/workouts";
-
-/**
- * Custom hook implements Workouts data management
- *
- * @param workoutName {string} - workout name
- * @param exerciseNumber {number} - exercise number
- * @returns {{isLoading, currentWorkout: *, currentExercise: *, workouts, lastSuccessTimestamp}}
- */
 const useWorkouts = (workoutName, exerciseNumber) => {
-  const lastSuccessTimestamp = useSelector(state => state.workouts.lastSuccessTimestamp);
-  const workouts = useSelector(state => state.workouts.workouts);
-  const isLoading = useSelector(state => state.workouts.isLoading);
+  const lastSuccessTimestamp = useSelector((s) => s.workouts.lastSuccessTimestamp);
+  const workouts = useSelector((s) => s.workouts.workouts);
+  const isLoading = useSelector((s) => s.workouts.isLoading);
+  const error = useSelector((s) => s.workouts.error);
   const dispatch = useDispatch();
 
-  const currentWorkout = workouts.find(workout => workout.name === workoutName);
+  const currentWorkout = workouts.find((w) => w.name === workoutName);
   const exerciseIndex = parseInt(exerciseNumber, 10) - 1;
   const currentExercise = currentWorkout?.exercises[exerciseIndex];
 
-  // Initial data loading on component mount
   useEffect(() => {
-    // No timestamp for data
     if (!lastSuccessTimestamp) {
-      // Dispatch data fetching
-      dispatch(getWorkOutsAction());
+      dispatch(fetchWorkouts());
     }
   }, [lastSuccessTimestamp, dispatch]);
 
   return {
     isLoading,
+    error,
     workouts,
     lastSuccessTimestamp,
     currentWorkout,
     currentExercise,
-  }
+  };
 };
 
 export default useWorkouts;

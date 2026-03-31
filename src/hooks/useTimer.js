@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 
-const intervalDuration = 100;
-
 const initialState = {
   timer: 0,
   isInProgress: false,
@@ -9,50 +7,48 @@ const initialState = {
 };
 
 const useTimer = (initTime = 0) => {
-  // Initial timer setup
-  useEffect(() => {
-    setState(prevState => ({ ...prevState, totalTime: initTime }));
-  }, [initTime]);
-
   const [state, setState] = useState(initialState);
   const { timer, totalTime, isInProgress } = state;
 
+  // Initial timer setup
+  useEffect(() => {
+    setState((prevState) => ({ ...prevState, totalTime: initTime, timer: 0 }));
+  }, [initTime]);
+
   const timeLeft = totalTime - timer;
-  const progress = (totalTime - timeLeft) / totalTime;
+  const progress = totalTime > 0 ? timer / totalTime : 0;
 
   const setTimer = useCallback((totalTime) => {
-    setState(prevState => ({ ...prevState, timer: 0, totalTime }));
+    setState((prevState) => ({ ...prevState, timer: 0, totalTime }));
   }, []);
 
   const startTimer = useCallback(() => {
-    setState(prevState => ({ ...prevState, isInProgress: true }));
+    setState((prevState) => ({ ...prevState, isInProgress: true }));
   }, []);
 
   const pauseTimer = useCallback(() => {
-    setState(prevState => ({ ...prevState, isInProgress: false }));
+    setState((prevState) => ({ ...prevState, isInProgress: false }));
   }, []);
 
   const stopTimer = useCallback(() => {
-    setState(prevState => ({ ...prevState, timer: 0, isInProgress: false }));
+    setState((prevState) => ({ ...prevState, timer: 0, isInProgress: false }));
   }, []);
 
-  // Timer
+  // Timer — 1 second interval (was 100ms = 10x too fast)
   useEffect(() => {
     let timerId = null;
 
     if (isInProgress) {
       timerId = setInterval(() => {
-        if (isInProgress) {
-          setState(prevState => ({
-            ...prevState,
-            timer: prevState.timer + 1,
-          }));
-        }
-      }, intervalDuration);
+        setState((prevState) => ({
+          ...prevState,
+          timer: prevState.timer + 1,
+        }));
+      }, 1000);
     }
 
     return () => clearInterval(timerId);
-  }, [isInProgress, totalTime]);
+  }, [isInProgress]);
 
   return {
     timeLeft,
@@ -62,7 +58,7 @@ const useTimer = (initTime = 0) => {
     startTimer,
     setTimer,
     isInProgress,
-  }
+  };
 };
 
 export default useTimer;

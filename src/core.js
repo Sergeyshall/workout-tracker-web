@@ -1,50 +1,29 @@
-const authorization = 'dummy-token';
-
 const getByUri = async (uri) => {
-    const params = {
-        method: 'GET',
-        headers: {
-            Authorization: authorization,
-        }
-    };
-
-    return fetch(uri, params)
-        .then((response) => {
-            if (response.status !== 200) {
-                throw response;
-            }
-
-            return response.json();
-        });
+    const response = await fetch(uri);
+    if (response.status !== 200) {
+        throw new Error(`Failed to fetch ${uri}: ${response.status}`);
+    }
+    return response.json();
 };
 
 const getExercises = async () => {
-    const uri = "/data/exercises.json";
-
-    return getByUri(uri);
+    return getByUri("/data/exercises.json");
 };
 
 const getWorkouts = async () => {
-    const uri = "/data/workouts.json";
-
-    return getByUri(uri);
+    return getByUri("/data/workouts.json");
 };
 
 const getWorkoutsWithExercises = async () => {
     const exercises = await getExercises();
     const workouts = await getWorkouts();
 
-    return workouts.map(workout => {
-        workout.exercises = workout.exercises.map(exercise => {
-            return exercises.find(item => item.name === exercise);
-        });
-
-        return workout;
-    })
+    return workouts.map((workout) => ({
+        ...workout,
+        exercises: workout.exercises.map((exerciseName) =>
+            exercises.find((item) => item.name === exerciseName)
+        ),
+    }));
 };
 
-export {
-    getExercises,
-    getWorkouts,
-    getWorkoutsWithExercises,
-}
+export { getExercises, getWorkouts, getWorkoutsWithExercises };

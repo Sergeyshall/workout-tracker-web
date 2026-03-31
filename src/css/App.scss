@@ -1,6 +1,8 @@
-@import "theme";
+@use "theme" as *;
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -48,6 +50,7 @@ a {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -109,6 +112,7 @@ a {
   from {
     text-indent: 0;
   }
+
   to {
     text-indent: -100%;
   }
